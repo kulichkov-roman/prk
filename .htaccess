@@ -1,0 +1,39 @@
+Options -Indexes 
+ErrorDocument 404 /404.php
+
+<IfModule mod_php5.c>
+    php_flag allow_call_time_pass_reference 1
+    php_flag session.use_trans_sid off
+    php_value display_errors 1
+    php_value mbstring.internal_encoding cp1251
+    php_value mbstring.func_overload 2
+    php_flag register_globals off
+    php_flag allow_url_fopen Off
+</IfModule>
+
+<IfModule mod_rewrite.c>
+	Options +FollowSymLinks
+	RewriteEngine On
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-l
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !/bitrix/urlrewrite.php$
+	RewriteRule ^(.*)$ /bitrix/urlrewrite.php [L]
+	RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization}]
+
+	Redirect 301 /about/licenses/ http://prk.kulichkov.pro/about/guaranty/
+	Redirect 301 /services/predstavitelstvo-v-sude/ http://prk.kulichkov.pro/services/zashhita_prav_biznesa/
+	Redirect 301 /services/zashchita-prav/ http://prk.kulichkov.pro/services/zashhita_prav_grazhdan/
+	Redirect 301 /services/prochie-uslugi/ http://prk.kulichkov.pro/services/registracija_kompaniiti/
+	Redirect 301 /services/registraciya/ http://prk.kulichkov.pro/services/registracija_nedvizhimosti/
+</IfModule>
+
+<IfModule mod_dir.c>
+	DirectoryIndex index.php index.html
+</IfModule>
+
+<IfModule mod_expires.c>
+	ExpiresActive on
+	ExpiresByType image/jpeg "access plus 3 day"
+	ExpiresByType image/gif "access plus 3 day"
+</IfModule>
